@@ -10,6 +10,6 @@ namespace Dominio.Entities
         public string? NombreDepartamento { get; set; }
         public int IdPaisFk { get; set; }
         public Pais? Pais { get; set; }
-        public ICollection<Ciudad>? MyProperty { get; set; }
+        public ICollection<Ciudad>? Ciudades { get; set; }
     }
 }

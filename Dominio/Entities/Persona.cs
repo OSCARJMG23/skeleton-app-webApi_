@@ -7,7 +7,7 @@ namespace Dominio.Entities
 {
     public class Persona : BaseEntity
     {
-        public string? Nombre { get; set; }
+        public string? NombrePersona { get; set; }
         public string? Apellido { get; set; }
         public int IdGeneroFk { get; set; }
         public TipoGenero? Genero {get; set;}
@@ -15,7 +15,7 @@ namespace Dominio.Entities
         public Ciudad? Ciudad {get; set;}
         public int IdTipoPersonaFk { get; set; }
         public TipoPersona? TipoPersona { get; set; }
-        public ICollection<Matricula>? MyProperty { get; set; }
+        public ICollection<Matricula>? Matriculas { get; set; }
         public ICollection<TrainerSalon>? TrainerSalones { get; set; }
     }
 }

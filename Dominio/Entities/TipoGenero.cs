@@ -8,6 +8,6 @@ namespace Dominio.Entities
     public class TipoGenero : BaseEntity
     {
         public string? NobreGenero { get; set; }
-        public ICollection<Persona>? Persona { get; set; }
+        public ICollection<Persona>? Personas { get; set; }
     }
 }
