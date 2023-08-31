@@ -1,3 +1,6 @@
 {
-    "dotnet.defaultSolution": "skeleton-app-webapi_.sln"
+    "dotnet.defaultSolution": "skeleton-app-webapi_.sln",
+    "conventionalCommits.scopes": [
+        "cambios credenciales"
+    ]
 }
