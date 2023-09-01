@@ -14,6 +14,7 @@ namespace Aplication.UnitOfWork;
     {
         private readonly ApiIncidenciasContext _context;
         private PaisRepository _paises;
+        private DepartamentoRepository _departamentos;
 
         public UnitOfWork(ApiIncidenciasContext context)
         {
@@ -31,8 +32,24 @@ namespace Aplication.UnitOfWork;
                 return _paises;
             }
         }
+        public IDepartamentoInterface Departamentos
+        {
+            get
+            {
+                if(_departamentos == null)
+                {
+                    _departamentos = new DepartamentoRepository(_context);
+                }
+                return _departamentos;
+            }
+        }
         public int Save(){
             return _context.SaveChanges();
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
         public void Dispose()
         {

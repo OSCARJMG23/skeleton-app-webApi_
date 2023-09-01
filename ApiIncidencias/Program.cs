@@ -1,4 +1,5 @@
 using ApiIncidencias.Extensions;
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using Persistencia;
 using Persistencia.Data;
@@ -12,6 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureCors();
+builder.Services.AddAplicationServices();
+builder.Services.ConfigureRateLimit();
+builder.Services.ConfigureApiVersioning();
 
 builder.Services.AddDbContext<ApiIncidenciasContext>(options =>
 {
@@ -28,9 +32,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
+
+app.UseIpRateLimiting();
 
 app.UseAuthorization();
 

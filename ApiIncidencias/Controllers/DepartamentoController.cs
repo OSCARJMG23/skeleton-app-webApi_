@@ -8,35 +8,35 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ApiIncidencias.Controllers;
-
-public class PaisController : BaseApiController
+namespace ApiIncidencias.Controllers
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public PaisController(IUnitOfWork unitOfWork)
+    [Route("[controller]")]
+    public class DepartamentoController : BaseApiController
     {
-        _unitOfWork = unitOfWork;
-    }
+        private readonly IUnitOfWork _unitOfWork;
+        public DepartamentoController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<IEnumerable<Pais>>> Get()
+        public async Task<ActionResult<IEnumerable<Departamento>>> Get()
         {
-            var paises = await _unitOfWork.Paises.GetAllAsync();
-            return Ok(paises);
+            var departamentos = await _unitOfWork.Departamentos.GetAllAsync();
+            return Ok(departamentos);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<Pais>> Get(int id)
+        public async Task<ActionResult<Departamento>> Get(int id)
         {
-            var paises = await _unitOfWork.Paises.GetByIdAsync(id);
-            return Ok(paises);
+            var departamento = await _unitOfWork.Departamentos.GetByIdAsync(id);
+            return Ok(departamento);
         }
 
         [HttpPost]
@@ -90,4 +90,5 @@ public class PaisController : BaseApiController
 
             return NoContent();
         }
+    }
 }
