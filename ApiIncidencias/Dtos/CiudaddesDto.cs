@@ -7,6 +7,8 @@ namespace ApiIncidencias.Dtos
 {
     public class CiudaddesDto
     {
-        
+        public int Id { get; set; }
+        public string NombreCiudad { get; set; }
+        public List<PersonaDto> Personas { get; set; }
     }
 }

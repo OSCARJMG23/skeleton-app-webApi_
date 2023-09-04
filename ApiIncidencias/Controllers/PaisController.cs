@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiIncidencias.Dtos;
+using ApiIncidencias.Helpers;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
@@ -12,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace ApiIncidencias.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 
 public class PaisController : BaseApiController
 {
@@ -25,6 +28,7 @@ public class PaisController : BaseApiController
     }
 
         [HttpGet]
+        [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
@@ -32,6 +36,17 @@ public class PaisController : BaseApiController
         {
             var paises = await _unitOfWork.Paises.GetAllAsync();
             return _mapper.Map<List<PaisesDto>>(paises);
+        }
+        [HttpGet]
+        [MapToApiVersion("1.1")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<ActionResult<Pager<PaisDto>>> Get11([FromQuery]Params paisParams)
+        {
+            var paises = await _unitOfWork.Paises.GetAllAsync(paisParams.PageIndex,paisParams.PageSize, paisParams.Search);
+            var lstPaisDto = _mapper.Map<List<PaisDto>>(paises.registros);
+            return new Pager<PaisDto>(lstPaisDto,paises.totalRegistros,paisParams.PageIndex,paisParams.PageSize, paisParams.Search);
         }
 
         [HttpGet("{id}")]

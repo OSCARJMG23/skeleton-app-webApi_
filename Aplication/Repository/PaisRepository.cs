@@ -29,4 +29,20 @@ namespace Aplication.Repository;
             .Include(p=> p.Departamentos).ThenInclude(c =>c.Ciudades)
             .FirstOrDefaultAsync(p=>p.Id ==id);
         }
+        public override async Task<(int totalRegistros, IEnumerable<Pais> registros)> GetAllAsync(int pageIndex, int pageSize, string search)
+        {
+            var query = _context.Paises  as IQueryable<Pais>;
+            if(!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(p => p.NombrePais.ToLower().Contains(search));
+            }
+            query = query.OrderBy(p => p.Id);
+            var totalRegistros = await query.CountAsync();
+            var registros = await query
+                                    .Include(u =>u.Departamentos)
+                                    .Skip((pageIndex - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync();
+            return (totalRegistros, registros);
+        }
     }

@@ -4,6 +4,7 @@ using Aplication.UnitOfWork;
 using AspNetCoreRateLimit;
 using iText.Layout.Element;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace ApiIncidencias.Extensions;
 
@@ -51,6 +52,10 @@ public static class ApplicationServiceExtension
         {
             options.DefaultApiVersion = new ApiVersion(1,0);
             options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ApiVersionReader = ApiVersionReader.Combine(
+                new QueryStringApiVersionReader("ver"),
+                new HeaderApiVersionReader("X-Version")
+            );
         });
     }
 }
