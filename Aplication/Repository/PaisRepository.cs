@@ -20,13 +20,13 @@ namespace Aplication.Repository;
         public override async Task<IEnumerable<Pais>> GetAllAsync()
         {
             return await _context.Paises
-                .Include(p=>p.Departamentos)
+                .Include(p=> p.Departamentos)
                 .ToListAsync();
         }
         public override async Task<Pais> GetByIdAsync(int id)
         {
             return await _context.Paises
-            .Include(p=>p.Departamentos)
+            .Include(p=> p.Departamentos).ThenInclude(c =>c.Ciudades)
             .FirstOrDefaultAsync(p=>p.Id ==id);
         }
     }

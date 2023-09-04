@@ -23,7 +23,7 @@ public static class ApplicationServiceExtension
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
-    public static void ConfigureRateLimit(this IServiceCollection services)
+    public static void ConfigureRateLimiting(this IServiceCollection services)
     {
         services.AddMemoryCache();
         services.AddSingleton<IRateLimitConfiguration,RateLimitConfiguration>();

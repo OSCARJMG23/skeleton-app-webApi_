@@ -10,14 +10,14 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ApiIncidencias.Controllers;
-
-
-    public class DepartamentoController : BaseApiController
+namespace ApiIncidencias.Controllers
+{
+    public class PersonaController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public DepartamentoController(IUnitOfWork unitOfWork, IMapper mapper)
+
+        public PersonaController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -27,38 +27,38 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<IEnumerable<DepartamentosDto>>> Get()
+        public async Task<ActionResult<IEnumerable<PersonaDto>>> Get()
         {
-            var departamentos = await _unitOfWork.Departamentos.GetAllAsync();
-            return _mapper.Map<List<DepartamentosDto>>(departamentos);
+            var personas = await _unitOfWork.Personas.GetAllAsync();
+            return _mapper.Map<List<PersonaDto>>(personas);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<DepartamentoDto>> Get(int id)
+        public async Task<ActionResult<PersonaDto>> Get(int id)
         {
-            var departamento = await _unitOfWork.Departamentos.GetByIdAsync(id);
-            return _mapper.Map<DepartamentoDto>(departamento);
+            var personas = await _unitOfWork.Personas.GetByIdAsync(id);
+            return _mapper.Map<PersonaDto>(personas);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Departamento>> Post(Departamento departamento){
+        public async Task<ActionResult<Persona>> Post(Pais pais){
 
 
-            _unitOfWork.Departamentos.Add(departamento);
+            _unitOfWork.Paises.Add(pais);
             await _unitOfWork.SaveAsync();
 
-            if(departamento == null)
+            if(pais == null)
             {
                 return BadRequest();
             }
-            departamento.Id = departamento.Id;
-            return CreatedAtAction(nameof(Post),new {id =departamento.Id},departamento);
+            pais.Id = pais.Id;
+            return CreatedAtAction(nameof(Post),new {id =pais.Id},pais);
         }
 
         [HttpPut("{id}")]
@@ -66,16 +66,16 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Departamento>> Put(int id, [FromBody]Departamento departamento){
+        public async Task<ActionResult<Pais>> Put(int id, [FromBody]Pais pais){
 
-            if(departamento == null)
+            if(pais == null)
             {
                 return NotFound();
             }
 
-            _unitOfWork.Departamentos.Update(departamento);
+            _unitOfWork.Paises.Update(pais);
             await _unitOfWork.SaveAsync();
-            return departamento;
+            return pais;
         }
 
         [HttpDelete("{id}")]
@@ -84,14 +84,15 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status400BadRequest)] 
         public async Task<IActionResult> Delete(int id)
         {
-            var departamento = await _unitOfWork.Departamentos.GetByIdAsync(id);
-            if (departamento == null)
+            var paises = await _unitOfWork.Paises.GetByIdAsync(id);
+            if (paises == null)
             {
                 return NotFound();
             }
-            _unitOfWork.Departamentos.Remove(departamento);
+            _unitOfWork.Paises.Remove(paises);
             await _unitOfWork.SaveAsync();
 
             return NoContent();
         }
     }
+}

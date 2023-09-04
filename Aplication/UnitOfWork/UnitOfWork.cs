@@ -15,6 +15,8 @@ namespace Aplication.UnitOfWork;
         private readonly ApiIncidenciasContext _context;
         private PaisRepository _paises;
         private DepartamentoRepository _departamentos;
+        private CiudadRepository _ciudades;
+        private PersonaRepository _personas;
 
         public UnitOfWork(ApiIncidenciasContext context)
         {
@@ -43,10 +45,33 @@ namespace Aplication.UnitOfWork;
                 return _departamentos;
             }
         }
-        public int Save(){
+
+        public ICiudadInterface Ciudades
+        {
+            get
+            {
+                if(_ciudades == null)
+                {
+                    _ciudades = new CiudadRepository(_context);
+                }
+                return _ciudades;
+            }
+        }
+        public IPersonaInterface Personas
+        {
+            get
+            {
+                if(_personas == null)
+                {
+                    _personas = new PersonaRepository(_context);
+                }
+                return _personas;
+            }
+        }
+        public int Save()
+        {
             return _context.SaveChanges();
         }
-
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();

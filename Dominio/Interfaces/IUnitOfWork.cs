@@ -9,6 +9,8 @@ namespace Dominio.Interfaces
     {
         IPaisInterface Paises {get;}
         IDepartamentoInterface Departamentos {get;}
+        ICiudadInterface Ciudades {get;}
+        IPersonaInterface Personas {get;}
 
         Task<int> SaveAsync();
     }

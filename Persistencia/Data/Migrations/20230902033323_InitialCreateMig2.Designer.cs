@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistencia.Data;
 
@@ -10,9 +11,11 @@ using Persistencia.Data;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(ApiIncidenciasContext))]
-    partial class ApiIncidenciasContextModelSnapshot : ModelSnapshot
+    [Migration("20230902033323_InitialCreateMig2")]
+    partial class InitialCreateMig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,7 +191,7 @@ namespace Persistencia.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tipoPersona", (string)null);
+                    b.ToTable("Tipo Persona", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.Entities.TrainerSalon", b =>

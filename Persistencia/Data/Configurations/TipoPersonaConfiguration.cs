@@ -12,7 +12,7 @@ namespace Persistencia.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<TipoPersona> builder)
         {
-            builder.ToTable("Tipo Persona");
+            builder.ToTable("tipoPersona");
 
             builder.Property(p => p.Descripcion)
             .IsRequired()

@@ -8,8 +8,8 @@ using Dominio.Interfaces;
 using Persistencia.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Aplication.Repository
-{
+namespace Aplication.Repository;
+
     public class DepartamentoRepository : GenericRepository<Departamento>, IDepartamentoInterface
     {
         private readonly ApiIncidenciasContext _context;
@@ -30,4 +30,3 @@ namespace Aplication.Repository
             .FirstOrDefaultAsync(p=>p.Id ==id);
         }
     }
-}
