@@ -17,6 +17,7 @@ namespace ApiIncidencias.Profiles
             CreateMap<Departamento,DepartamentoDto>().ReverseMap();
             CreateMap<Departamento,DepartamentosDto>().ReverseMap();
             CreateMap<Ciudad,CiudadDto>().ReverseMap();
+            CreateMap<Ciudad,CiudaddesDto>().ReverseMap();
             CreateMap<Persona,PersonaDto>().ReverseMap();
         }
     }

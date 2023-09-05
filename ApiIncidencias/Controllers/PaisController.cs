@@ -63,8 +63,8 @@ public class PaisController : BaseApiController
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Pais>> Post(Pais pais){
-
+        public async Task<ActionResult<Pais>> Post(PaisesDto paisdto){
+            var pais = _mapper.Map<Pais>(paisdto);
 
             _unitOfWork.Paises.Add(pais);
             await _unitOfWork.SaveAsync();
@@ -73,8 +73,8 @@ public class PaisController : BaseApiController
             {
                 return BadRequest();
             }
-            pais.Id = pais.Id;
-            return CreatedAtAction(nameof(Post),new {id =pais.Id},pais);
+            paisdto.Id = pais.Id;
+            return CreatedAtAction(nameof(Post),new {id =paisdto.Id},paisdto);
         }
 
         [HttpPut("{id}")]
@@ -82,23 +82,23 @@ public class PaisController : BaseApiController
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Pais>> Put(int id, [FromBody]Pais pais){
+        public async Task<ActionResult<PaisesDto>> Put(int id, [FromBody]PaisesDto paisdto){
 
-            if(pais == null)
+            if(paisdto == null)
             {
                 return NotFound();
             }
-
+            var pais = _mapper.Map<Pais>(paisdto);
             _unitOfWork.Paises.Update(pais);
             await _unitOfWork.SaveAsync();
-            return pais;
+            return paisdto;
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<PaisDto>> Delete(int id)
         {
             var paises = await _unitOfWork.Paises.GetByIdAsync(id);
             if (paises == null)

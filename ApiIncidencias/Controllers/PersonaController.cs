@@ -47,18 +47,18 @@ namespace ApiIncidencias.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Persona>> Post(Pais pais){
+        public async Task<ActionResult<Persona>> Post(PersonaDto personaDto){
+            var persona = _mapper.Map<Persona>(personaDto);
 
-
-            _unitOfWork.Paises.Add(pais);
+            _unitOfWork.Personas.Add(persona);
             await _unitOfWork.SaveAsync();
 
-            if(pais == null)
+            if(persona == null)
             {
                 return BadRequest();
             }
-            pais.Id = pais.Id;
-            return CreatedAtAction(nameof(Post),new {id =pais.Id},pais);
+            personaDto.Id = persona.Id;
+            return CreatedAtAction(nameof(Post),new {id =personaDto.Id},personaDto);
         }
 
         [HttpPut("{id}")]
@@ -66,30 +66,30 @@ namespace ApiIncidencias.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Pais>> Put(int id, [FromBody]Pais pais){
+        public async Task<ActionResult<PersonaDto>> Put(int id, [FromBody]PersonaDto personaDto){
 
-            if(pais == null)
+            if(personaDto == null)
             {
                 return NotFound();
             }
-
-            _unitOfWork.Paises.Update(pais);
+            var persona = _mapper.Map<Persona>(personaDto);
+            _unitOfWork.Personas.Update(persona);
             await _unitOfWork.SaveAsync();
-            return pais;
+            return personaDto;
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<PersonaDto>> Delete(int id)
         {
-            var paises = await _unitOfWork.Paises.GetByIdAsync(id);
-            if (paises == null)
+            var persona = await _unitOfWork.Ciudades.GetByIdAsync(id);
+            if (persona== null)
             {
                 return NotFound();
             }
-            _unitOfWork.Paises.Remove(paises);
+            _unitOfWork.Ciudades.Remove(persona);
             await _unitOfWork.SaveAsync();
 
             return NoContent();

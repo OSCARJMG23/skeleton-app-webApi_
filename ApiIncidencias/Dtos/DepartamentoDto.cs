@@ -8,7 +8,7 @@ namespace ApiIncidencias.Dtos
     public class DepartamentoDto
     {
         public int Id { get; set; }
-        public string? NombreDepartamento { get; set; }
-        public List<CiudadDto>? Ciudades { get; set; }
+        public string NombreDepartamento { get; set; }
+        public List<CiudadDto> Ciudades { get; set; }
     }
 }

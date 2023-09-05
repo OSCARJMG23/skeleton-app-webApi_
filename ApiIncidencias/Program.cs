@@ -22,7 +22,7 @@ builder.Services.ConfigureCors();
 
 builder.Services.AddDbContext<ApiIncidenciasContext>(options =>
 {
-    string? connectionString = builder.Configuration.GetConnectionString("ConexMysql");
+    string connectionString = builder.Configuration.GetConnectionString("ConexMysql");
     options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
 });
 

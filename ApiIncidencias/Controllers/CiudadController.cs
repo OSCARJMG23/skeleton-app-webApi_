@@ -40,28 +40,28 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<CiudadDto>> Get(int id)
+        public async Task<ActionResult<CiudaddesDto>> Get(int id)
         {
             var ciudad = await _unitOfWork.Ciudades.GetByIdAsync(id);
-            return _mapper.Map<CiudadDto>(ciudad);
+            return _mapper.Map<CiudaddesDto>(ciudad);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Pais>> Post(Pais pais){
+        public async Task<ActionResult<Ciudad>> Post(CiudaddesDto ciudaddesDto){
 
-
-            _unitOfWork.Paises.Add(pais);
+            var ciudad = _mapper.Map<Ciudad>(ciudaddesDto);
+            _unitOfWork.Ciudades.Add(ciudad);
             await _unitOfWork.SaveAsync();
 
-            if(pais == null)
+            if(ciudad == null)
             {
                 return BadRequest();
             }
-            pais.Id = pais.Id;
-            return CreatedAtAction(nameof(Post),new {id =pais.Id},pais);
+            ciudad.Id = ciudad.Id;
+            return CreatedAtAction(nameof(Post),new {id =ciudad.Id},ciudad);
         }
 
         [HttpPut("{id}")]
@@ -69,32 +69,33 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Pais>> Put(int id, [FromBody]Pais pais){
+        public async Task<ActionResult<CiudaddesDto>> Put(int id, [FromBody]CiudaddesDto ciudaddesDto){
 
-            if(pais == null)
+            if(ciudaddesDto == null)
             {
                 return NotFound();
             }
-
-            _unitOfWork.Paises.Update(pais);
+            var ciudad = _mapper.Map<Ciudad>(ciudaddesDto);
+            _unitOfWork.Ciudades.Update(ciudad);
             await _unitOfWork.SaveAsync();
-            return pais;
+            return ciudaddesDto;
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<CiudaddesDto>> Delete(int id)
         {
-            var paises = await _unitOfWork.Paises.GetByIdAsync(id);
-            if (paises == null)
+            var ciudades = await _unitOfWork.Ciudades.GetByIdAsync(id);
+            if (ciudades == null)
             {
                 return NotFound();
             }
-            _unitOfWork.Paises.Remove(paises);
+            _unitOfWork.Ciudades.Remove(ciudades);
             await _unitOfWork.SaveAsync();
 
             return NoContent();
         }
+
 }

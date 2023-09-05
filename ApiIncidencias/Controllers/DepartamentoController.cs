@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiIncidencias.Dtos;
+using ApiIncidencias.Helpers;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
@@ -47,8 +48,8 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Departamento>> Post(Departamento departamento){
-
+        public async Task<ActionResult<Departamento>> Post(DepartamentosDto departamentodto){
+            var departamento = _mapper.Map<Departamento>(departamentodto);
 
             _unitOfWork.Departamentos.Add(departamento);
             await _unitOfWork.SaveAsync();
@@ -57,8 +58,8 @@ namespace ApiIncidencias.Controllers;
             {
                 return BadRequest();
             }
-            departamento.Id = departamento.Id;
-            return CreatedAtAction(nameof(Post),new {id =departamento.Id},departamento);
+            departamentodto.Id = departamento.Id;
+            return CreatedAtAction(nameof(Post),new {id =departamentodto.Id},departamentodto);
         }
 
         [HttpPut("{id}")]
@@ -66,23 +67,23 @@ namespace ApiIncidencias.Controllers;
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         
-        public async Task<ActionResult<Departamento>> Put(int id, [FromBody]Departamento departamento){
+        public async Task<ActionResult<DepartamentosDto>> Put(int id, [FromBody]DepartamentosDto departamentodto){
 
-            if(departamento == null)
+            if(departamentodto == null)
             {
                 return NotFound();
             }
-
+            var departamento = _mapper.Map<Departamento>(departamentodto);
             _unitOfWork.Departamentos.Update(departamento);
             await _unitOfWork.SaveAsync();
-            return departamento;
+            return departamentodto;
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<DepartamentosDto>> Delete(int id)
         {
             var departamento = await _unitOfWork.Departamentos.GetByIdAsync(id);
             if (departamento == null)
